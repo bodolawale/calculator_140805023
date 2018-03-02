@@ -1,0 +1,43 @@
+#output {
+    margin: 20px
+}
+
+#ans {
+    font-size: 30px;
+}
+
+.bigg {
+    width: 100px;
+}
+
+button {
+    width: 40px;
+    height: 40px;
+    margin: 6px;
+    background-color: #eeeeee;
+}
+
+.btn {
+    margin: 6px;
+}
+
+.bigg {
+    width: 100px;
+}
+
+#equals {
+    background-color: green;
+}
+
+.num {
+    background-color: grey;
+}
+
+.point {
+    background-color: grey;
+}
+
+.outputbox {
+    text-align: right;
+    border-style: none;
+}
