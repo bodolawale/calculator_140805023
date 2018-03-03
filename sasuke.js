@@ -273,6 +273,7 @@ $(document).ready(function() {
             }
         }
         if (final.length > 1) {
+            output = [];
             throw "error";
         }
         return final[0];
