@@ -11,6 +11,7 @@ var kakashi = {
     "-": { "precedence": 2, "ass": "left", "uniary": false, "function": function(a, b) { return (a - b); } },
     "*": { "precedence": 3, "ass": "left", "uniary": false, "function": function(a, b) { return (a * b); } },
     "/": { "precedence": 3, "ass": "left", "uniary": false, "function": function(a, b) { return (a / b); } },
+    "~": { "precedence": 5, "ass": "right", "uniary": true, "function": function(e) { return 0 - e; } },
     "^": { "precedence": 4, "ass": "right", "uniary": false, "function": function(a, b) { return Math.pow(a, b); } },
     "(": { "precedence": 0, "ass": "left", "uniary": false, },
     ")": { "precedence": -1, "ass": "left", "uniary": false, }
@@ -91,8 +92,12 @@ $(document).ready(function() {
         try {
             var a = inputs[inputs.length - 1];
             if (!isNaN(Number(a))) {
-                inputs.pop();
-                inputs.push(fact(Number(a)).toString());
+                if ((fact(Number(a)).toString()) == "Infinity") {
+                    throw "Too large"
+                } else {
+                    inputs.pop();
+                    inputs.push(fact(Number(a)).toString());
+                }
             }
             update();
         } catch (error) {
@@ -105,6 +110,8 @@ $(document).ready(function() {
     $(".pi").click(function() {
         var a = inputs[inputs.length - 1];
         if (inputs.length < 1) {
+            inputs.push(Math.PI.toString());
+        } else if (operators.includes(a)) {
             inputs.push(Math.PI.toString());
         } else if (!isNaN(Number((a)) || (a === ")") || (a == "."))) {
             inputs.push("*");
@@ -137,7 +144,14 @@ $(document).ready(function() {
     $(".operand").click(function() {
         var a = inputs[inputs.length - 1];
         if (this.id === "-" || this.id === "+") {
-            inputs.push(this.id);
+            if ((this.id == "-") && ((inputs.length == 0) || operators.includes(a))) {
+                inputs.push("~");
+            }
+            if ((this.id == "+") && ((inputs.length == 0) || (a == "(") || operators.includes(a))) {
+
+            } else {
+                inputs.push(this.id);
+            }
         } else if (!isNaN(Number(a))) {
             inputs.push(this.id);
         }
@@ -172,7 +186,7 @@ $(document).ready(function() {
             var bod = finalsolve(output);
             output = [];
             if (isNaN(bod)) {
-                throw "Error";
+                throw "Math Error";
             }
             if (bod == "Infinity") {
                 throw ("Divisor by 0");
@@ -274,7 +288,7 @@ $(document).ready(function() {
         }
         if (final.length > 1) {
             output = [];
-            throw "error";
+            throw "Math Error";
         }
         return final[0];
     }
